@@ -60,6 +60,13 @@ class SettingRepository
             ->map(fn ($entry) => $this->getGenericSetting($entry));
     }
 
+    public function chunckAllById()
+    {
+        return $this->conn->table($this->table)
+            ->cursor()
+            ->map(fn ($entry) => $this->getGenericSetting($entry));
+    }
+
     /**
      * Get the generic setting.
      *
