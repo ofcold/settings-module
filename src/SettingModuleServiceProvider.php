@@ -5,7 +5,6 @@ namespace Ofcold\Module\Setting;
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Support\Facades\Route;
 use Ofcold\Extension\Providers\ServiceProvider;
-use Ofcold\Module\Setting\Console\CreatedDefaultSetting;
 use Ofcold\Module\Setting\Actions\{
     CreateSettingItem,
     UpdateSettingItem
@@ -35,7 +34,8 @@ class SettingModuleServiceProvider extends ServiceProvider
         // dump($this->app->make(SettingCollectionInterface::class));
 
         $this->commands([
-            CreatedDefaultSetting::class
+            Console\CreatedDefaultSetting::class,
+            Console\CacheStoreSetting::class,
         ]);
     }
 
