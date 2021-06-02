@@ -25,7 +25,7 @@ class CacheItemSetting implements CacheItemSettingInterface
     public function setItem(string $key, $value): bool
     {
         return (bool) $this->connection()->setnx(
-            $key, $this->serialize($value)
+            SettingStorekey::get($key), $this->serialize($value)
         );
     }
 
@@ -36,11 +36,16 @@ class CacheItemSetting implements CacheItemSettingInterface
      *
      * @return mixed
      */
-    public function getItem(string $key)
+    public function item(string $key)
     {
         $value = $this->connection()->get(SettingStorekey::get($key));
 
         return ! is_null($value) ? $this->unserialize($value) : null;
+    }
+
+    public function has(string $key)
+    {
+        return ! is_null($this->item($key));
     }
 
     /**
@@ -52,7 +57,7 @@ class CacheItemSetting implements CacheItemSettingInterface
      */
     public function forget($key): bool
     {
-        return (bool) $this->connection()->del($key);
+        return (bool) $this->connection()->del(SettingStorekey::get($key));
     }
 
     /**

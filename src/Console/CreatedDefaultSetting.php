@@ -70,7 +70,7 @@ class CreatedDefaultSetting extends Command
             }
 
             $response = $this->creator->create([
-                'key' => SettingStorekey::get($namespace.'::'.$key.'.'.$val['key']),
+                'key' => $namespace.'::'.$key.'.'.$val['key'],
                 'namespace' => $namespace,
                 'component' => $val['component'],
                 'value' => $val['value'] ?? null,

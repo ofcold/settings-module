@@ -3,8 +3,8 @@
 namespace Ofcold\Module\Setting\Repositories;
 
 use Illuminate\Database\ConnectionInterface;
+use Ofcold\Module\Setting\Contracts\CacheItemSettingInterface;
 use Ofcold\Module\Setting\GenericSetting;
-use Ofcold\Module\Setting\SettingStorekey;
 
 class SettingRepository
 {
@@ -18,6 +18,7 @@ class SettingRepository
      */
     public function __construct(
         protected ConnectionInterface $conn,
+        protected CacheItemSettingInterface $cache,
         protected ?string $table = null
     ) {
         $this->table = $this->table ?: 'settings';
@@ -32,9 +33,11 @@ class SettingRepository
      */
     public function item(string $key): GenericSetting
     {
-        return $this->getGenericSetting(
+        $item = $this->cache->item($key);
+
+        return $item ?: $this->getGenericSetting(
             $this->conn->table($this->table)
-                ->where('key', SettingStorekey::get($key))
+                ->where('key', $key)
                 ->first()
         );
     }
@@ -42,7 +45,7 @@ class SettingRepository
     public function hasKeyExists(string $key): bool
     {
         return $this->conn->table($this->table)
-                ->where('key', SettingStorekey::get($key))
+                ->where('key', $key)
                 ->count() > 0;
     }
 

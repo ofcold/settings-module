@@ -8,7 +8,7 @@
             "email": "bill.li@ofcold.com"
         }
     ],
-    "required": {
+    "require": {
         "php": "^8.0"
     },
     "require-dev": {
