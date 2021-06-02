@@ -21,11 +21,11 @@ class CreateSettingItem implements CreateSettingItemInterface
      */
     public function create(array $items)
     {
-        if ($repository->hasKeyExists($items['key'])) {
+        if ($this->repository->hasKeyExists($items['key'])) {
             return;
         }
 
-        $items['is_bind_env'] = config()->has($items['is_bind_env']);
+        $items['is_bind_env'] = config()->has($items['key']);
 
         return Setting::create($items);
     }

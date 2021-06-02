@@ -4,6 +4,7 @@ namespace Ofcold\Module\Setting\Repositories;
 
 use Illuminate\Database\ConnectionInterface;
 use Ofcold\Module\Setting\GenericSetting;
+use Ofcold\Module\Setting\SettingStorekey;
 
 class SettingRepository
 {
@@ -33,7 +34,7 @@ class SettingRepository
     {
         return $this->getGenericSetting(
             $this->conn->table($this->table)
-                ->where('key', $key)
+                ->where('key', SettingStorekey::get($key))
                 ->first()
         );
     }
@@ -41,7 +42,7 @@ class SettingRepository
     public function hasKeyExists(string $key): bool
     {
         return $this->conn->table($this->table)
-                ->where('key', $key)
+                ->where('key', SettingStorekey::get($key))
                 ->count() > 0;
     }
 
@@ -60,7 +61,12 @@ class SettingRepository
             ->map(fn ($entry) => $this->getGenericSetting($entry));
     }
 
-    public function chunckAllById()
+    public function query()
+    {
+        return $this->conn->table($this->table);
+    }
+
+    public function all()
     {
         return $this->conn->table($this->table)
             ->cursor()

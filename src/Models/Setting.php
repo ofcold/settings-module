@@ -13,7 +13,35 @@ class Setting extends Model implements SettingInterface
      *
      * @var bool
      */
-    public $incrementing = true;
+    public $incrementing = false;
+
+    /**
+     * The primary key for the model.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'key';
+
+    /**
+     * The "type" of the primary key ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'key',
+        'component',
+        'namespace',
+        'value',
+        'defulat',
+        'is_bind_env',
+    ];
 
     /**
      * The relations to eager load on every query.

@@ -5,8 +5,11 @@ namespace Ofcold\Module\Setting\Console;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Carbon;
+use Ofcold\Module\Setting\Contracts\CreateSettingItemInterface;
 use Ofcold\Module\Setting\Contracts\SettingCollectionInterface;
 use Ofcold\Module\Setting\Contracts\SettingInterface;
+use Ofcold\Module\Setting\Repositories\SettingRepository;
+use Ofcold\Module\Setting\SettingStorekey;
 
 class CreatedDefaultSetting extends Command
 {
@@ -28,10 +31,16 @@ class CreatedDefaultSetting extends Command
      */
     protected $description = 'In the migrate after and application install before install setting defulat items.';
 
-    public function __construct(
-        protected CreateSettingItemInterface $creator,
-        protected SettingCollectionInterface $settings
-    ) {
+    protected $repository;
+    protected $creator;
+    protected $settings;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->repository = app(SettingRepository::class);
+        $this->creator = app(CreateSettingItemInterface::class);
+        $this->settings = app(SettingCollectionInterface::class);
     }
 
     /**
@@ -48,16 +57,24 @@ class CreatedDefaultSetting extends Command
                 go(fn () => $this->generateItems($namespace, $key, $vals));
             }
         }
+
+        $this->info('Successfully create count: ' . $this->count);
     }
 
     protected function generateItems($namespace, $key, $vals)
     {
         foreach ($vals as $val) {
-            $response = $creator->create([
-                'key' => $namespace.'::'.$key.'.'.$val['key'],
+
+            if ($this->repository->hasKeyExists($namespace.'::'.$key.'.'.$val['key'])) {
+                continue;
+            }
+
+            $response = $this->creator->create([
+                'key' => SettingStorekey::get($namespace.'::'.$key.'.'.$val['key']),
                 'namespace' => $namespace,
                 'component' => $val['component'],
                 'value' => $val['value'] ?? null,
+                'defulat' => $val['value'] ?? $val['defulat'] ?? null,
             ]);
 
             if ($response instanceof SettingInterface) {

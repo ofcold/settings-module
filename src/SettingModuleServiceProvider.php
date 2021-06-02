@@ -5,15 +5,18 @@ namespace Ofcold\Module\Setting;
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Support\Facades\Route;
 use Ofcold\Extension\Providers\ServiceProvider;
+
 use Ofcold\Module\Setting\Actions\{
     CreateSettingItem,
-    UpdateSettingItem
+    UpdateSettingItem,
+    CacheItemSetting
 };
 
 use Ofcold\Module\Setting\Contracts\{
     CreateSettingItemInterface,
     SettingCollectionInterface,
-    UpdateSettingItemInterface
+    UpdateSettingItemInterface,
+    CacheItemSettingInterface
 };
 
 class SettingModuleServiceProvider extends ServiceProvider
@@ -89,6 +92,7 @@ class SettingModuleServiceProvider extends ServiceProvider
         $this->app->singleton(SettingCollectionInterface::class, SettingCollection::class);
         $this->app->singleton(CreateSettingItemInterface::class, CreateSettingItem::class);
         $this->app->singleton(UpdateSettingItemInterface::class, UpdateSettingItem::class);
+        $this->app->singleton(CacheItemSettingInterface::class, CacheItemSetting::class);
         // $this->app->booted(fn () => $this->app->singleton(SettingCollectionInterface::class, SettingCollection::class));
     }
 }

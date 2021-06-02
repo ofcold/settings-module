@@ -2,7 +2,9 @@
 
 namespace Ofcold\Module\Setting;
 
-class GenericSetting
+use Illuminate\Contracts\Support\Arrayable;
+
+class GenericSetting implements Arrayable
 {
     /**
      * Create a new generic Setting object.
@@ -122,5 +124,20 @@ class GenericSetting
     public function __unset($key)
     {
         unset($this->attributes[$key]);
+    }
+
+    /**
+     * Get the instance as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->attributes;
+    }
+
+    public function toJson()
+    {
+
     }
 }
