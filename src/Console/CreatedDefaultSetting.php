@@ -8,7 +8,6 @@ use Illuminate\Support\Carbon;
 use Ofcold\Module\Setting\Contracts\CreateSettingItemInterface;
 use Ofcold\Module\Setting\Contracts\SettingCollectionInterface;
 use Ofcold\Module\Setting\Contracts\SettingInterface;
-use Ofcold\Module\Setting\Repositories\SettingRepository;
 use Ofcold\Module\Setting\SettingStorekey;
 
 class CreatedDefaultSetting extends Command
@@ -31,14 +30,12 @@ class CreatedDefaultSetting extends Command
      */
     protected $description = 'In the migrate after and application install before install setting defulat items.';
 
-    protected $repository;
     protected $creator;
     protected $settings;
 
     public function __construct()
     {
         parent::__construct();
-        $this->repository = app(SettingRepository::class);
         $this->creator = app(CreateSettingItemInterface::class);
         $this->settings = app(SettingCollectionInterface::class);
     }
@@ -64,10 +61,6 @@ class CreatedDefaultSetting extends Command
     protected function generateItems($namespace, $key, $vals)
     {
         foreach ($vals as $val) {
-
-            if ($this->repository->hasKeyExists($namespace.'::'.$key.'.'.$val['key'])) {
-                continue;
-            }
 
             $response = $this->creator->create([
                 'key' => $namespace.'::'.$key.'.'.$val['key'],
