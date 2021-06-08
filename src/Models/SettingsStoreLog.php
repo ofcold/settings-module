@@ -5,7 +5,7 @@ namespace Ofcold\Module\Setting\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class SettingsStoreLogs extends Model
+class SettingsStoreLog extends Model
 {
     /**
      * Indicates if the IDs are auto-incrementing.

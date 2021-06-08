@@ -4,5 +4,5 @@ namespace Ofcold\Module\Setting\Contracts;
 
 interface UpdateSettingItemInterface
 {
-    public function save();
+    public function push();
 }
