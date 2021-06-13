@@ -7,8 +7,8 @@ use Illuminate\Routing\Controller;
 
 class SettingStoreController extends Controller
 {
-    public function store(Request $request)
-    {
+	public function store(Request $request)
+	{
 
-    }
+	}
 }

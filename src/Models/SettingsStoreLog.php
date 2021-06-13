@@ -7,31 +7,31 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class SettingsStoreLog extends Model
 {
-    /**
-     * Indicates if the IDs are auto-incrementing.
-     *
-     * @var bool
-     */
-    public $incrementing = true;
+	/**
+	 * Indicates if the IDs are auto-incrementing.
+	 *
+	 * @var bool
+	 */
+	public $incrementing = true;
 
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    protected $with = [];
+	/**
+	 * The relations to eager load on every query.
+	 *
+	 * @var array
+	 */
+	protected $with = [];
 
-    /**
-     * The relationship counts that should be eager loaded on every query.
-     *
-     * @var array
-     */
-    protected $withCount = [];
+	/**
+	 * The relationship counts that should be eager loaded on every query.
+	 *
+	 * @var array
+	 */
+	protected $withCount = [];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
-    protected $casts = [];
+	/**
+	 * The attributes that should be cast.
+	 *
+	 * @var array
+	 */
+	protected $casts = [];
 }
